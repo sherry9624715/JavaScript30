@@ -58,9 +58,66 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+// window.addEventListener('keydown', function(e){
+//   console.log(e);
+// });
+
+//addEventListener
+//target.addEventListener(type, listener);
+//type for the event type
+//addEventListner will send event to listener
+//event itself has a bunch of data inside
+
+
+  function playAudio(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+    //return the element with the selector
+    if(!audio) return;//if there is no audio. so !audio means audio == null?
+    audio.currentTime = 0; //rewind to the start to let second keydown can also be played
+    //TODO: WHAT IF I WANT IT TO BE PLAYED SECOND TIME?
+    audio.play()
+    //console.log(key);
+
+    //key.addCass('playing';)
+    //for JQ
+
+    key.classList.add('playing');
+    //key.classList.remove('playing');
+    //key.classList.toggle('plying');
+  }
+
+  function removeTransition(e) {
+    //console.log(e);
+    if (e.propertyName !== 'transform') return; //skip irellevant events 
+    //console.log(e.propertyName);
+    this.classList.remove('playing');
+  }
+  //e for event
+
+
+  //How to stop it?
+  //beside set a setTimeout, and set it to end at specific time, which is not general.
+  //it will be better to use transision event
+  //querySelectorAll will output a Node List, and you can't use eventListener on array(list)
+  //what is arrow function??
+  const keys = document.querySelectorAll('.key');
+  //Can try to paste "document.querySelector(`.key`);" to console and see the list
+  keys.forEach(key => key.addEventListener('transitionend',removeTransition));
+  //can list up transitioned events when keys triggered
+  //Will this take up lots of resources?????
+  window.addEventListener('keydown',playAudio);
+
+
+// or input, div, textarea
+// whats the difference?
 
 </script>
 
 
 </body>
 </html>
+
+
+
